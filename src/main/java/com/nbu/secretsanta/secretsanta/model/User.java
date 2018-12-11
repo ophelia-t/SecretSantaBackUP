@@ -33,6 +33,8 @@ public class User {
     @Column(name = "gender")
     private Integer gender;
 
+    @Column(name = "password")
+    private Integer password;
 
     @ManyToMany
     @JoinTable(
@@ -40,7 +42,7 @@ public class User {
             joinColumns = { @JoinColumn(name = "id") },
             inverseJoinColumns = { @JoinColumn(name = "id") }
     )
-    List<Hobby> projects = new LinkedList<>();
+    List<Hobby> hobbies = new LinkedList<>();
 
 
 }
