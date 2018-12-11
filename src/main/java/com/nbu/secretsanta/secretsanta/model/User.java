@@ -4,8 +4,10 @@ import lombok.Builder;
 import lombok.Data;
 import javax.persistence.*;
 import javax.validation.constraints.Email;
+import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Set;
 
 @Data
 @Builder
@@ -36,13 +38,16 @@ public class User {
     @Column(name = "password")
     private Integer password;
 
-    @ManyToMany
-    @JoinTable(
-            name = "user_hobby",
-            joinColumns = { @JoinColumn(name = "id") },
-            inverseJoinColumns = { @JoinColumn(name = "id") }
-    )
-    List<Hobby> hobbies = new LinkedList<>();
+
+    @ManyToMany(fetch = FetchType.LAZY,
+            cascade = {
+                    CascadeType.PERSIST,
+                    CascadeType.MERGE
+            })
+    @JoinTable(name = "user_hobby",
+            joinColumns = { @JoinColumn(name = "user_id") },
+            inverseJoinColumns = { @JoinColumn(name = "hobby_id") })
+    private Set<Hobby> hobbies = new HashSet<>();
 
 
 }
